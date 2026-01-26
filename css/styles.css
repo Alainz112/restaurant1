@@ -22,3 +22,7 @@ body.modal-open { overflow: hidden; }
 .reveal-stagger.is-visible > *:nth-child(4){ transition-delay:240ms; }
 .reveal-stagger.is-visible > *:nth-child(5){ transition-delay:320ms; }
 .reveal-stagger.is-visible > *:nth-child(6){ transition-delay:400ms; }
+
+
+/* Backup in case Tailwind dark classes are not applied (shouldn't happen after tailwind.config fix) */
+.dark body{ background:#09090b; color:#fafafa; }
