@@ -1,15 +1,52 @@
-// V3: Menu images + scroll reveal animation (IntersectionObserver). Edit content via JSON only.
+// V4: Dark/Light toggle + menu images + scroll reveal. Edit content via JSON.
 const fmt = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 });
 
-function waLink(number, text) {
-  return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
-}
+function waLink(number, text) { return `https://wa.me/${number}?text=${encodeURIComponent(text)}`; }
 
 function badgePill(text) {
   const span = document.createElement("span");
-  span.className = "rounded-full bg-[#fbf7f1] px-2 py-1 text-xs font-semibold text-zinc-700 ring-1 ring-black/10";
+  span.className = "rounded-full bg-[#fbf7f1] px-2 py-1 text-xs font-semibold text-zinc-700 ring-1 ring-black/10 " +
+                   "dark:bg-white/10 dark:text-zinc-200 dark:ring-white/10";
   span.textContent = text;
   return span;
+}
+
+function setTheme(theme) {
+  const isDark = theme === "dark";
+  document.documentElement.classList.toggle("dark", isDark);
+  try { localStorage.setItem("theme", theme); } catch (e) {}
+  updateThemeIcon();
+}
+
+function getSavedTheme() {
+  try { return localStorage.getItem("theme"); } catch (e) { return null; }
+}
+
+function updateThemeIcon() {
+  const icon = document.getElementById("themeIcon");
+  if (!icon) return;
+  const isDark = document.documentElement.classList.contains("dark");
+  icon.textContent = isDark ? "☀️" : "🌙";
+}
+
+function setupThemeToggle(siteDefaultTheme) {
+  const saved = getSavedTheme();
+  if (saved !== "dark" && saved !== "light") {
+    if (siteDefaultTheme === "dark" || siteDefaultTheme === "light") {
+      document.documentElement.classList.toggle("dark", siteDefaultTheme === "dark");
+    }
+  } else {
+    document.documentElement.classList.toggle("dark", saved === "dark");
+  }
+  updateThemeIcon();
+
+  const btn = document.getElementById("themeToggle");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.contains("dark");
+      setTheme(isDark ? "light" : "dark");
+    });
+  }
 }
 
 function setupScrollReveal() {
@@ -36,51 +73,46 @@ function setupScrollReveal() {
   const site = await siteRes.json();
   const MENU = await menuRes.json();
 
-  // Meta + year
+  setupThemeToggle(site.defaultTheme);
+
   document.getElementById("year").textContent = new Date().getFullYear();
   document.title = `${site.brandName} — Cafe & Brunch`;
   document.querySelector('meta[name="description"]').setAttribute("content", site.subheadline || "");
 
-  // Brand
   document.getElementById("brandNameTop").textContent = site.brandName;
   document.getElementById("brandNameAbout").textContent = site.brandName;
   document.getElementById("brandNameFooter").textContent = site.brandName;
 
-  // Hero content
   document.getElementById("navCta").textContent = site.navCta || "Book a Table";
-  // badge has: [dot span, text node], so update last text node:
   const badgeEl = document.getElementById("badge");
   badgeEl.childNodes[2].textContent = ` ${site.badge || site.hours || ""}`;
   document.getElementById("headline").textContent = site.headline || "";
   document.getElementById("subheadline").textContent = site.subheadline || "";
 
-  // Hero image
   const heroBg = document.getElementById("heroBg");
   heroBg.className = heroBg.className + ` bg-[url('${site.heroImage}')]`;
 
-  // About + map
   document.getElementById("address").textContent = site.address || "";
   document.getElementById("hours").textContent = site.hours || "";
   document.getElementById("mapFrame").src = site.mapEmbedUrl || "";
 
-  // Contact
   document.getElementById("waText").textContent = site.whatsappDisplay || "";
   document.getElementById("igText").textContent = site.instagram || "";
   document.getElementById("emailText").textContent = site.email || "";
 
-  // CTAs
   document.getElementById("whatsappCta").href = waLink(site.whatsappNumber, `Hi ${site.brandName}! I'd like to ask about your menu and booking.`);
   document.getElementById("whatsappCta2").href = waLink(site.whatsappNumber, `Hi ${site.brandName}! I'd like to book a table.`);
   document.getElementById("pdfMenuLink").href = site.pdfMenuUrl || "#";
 
-  // Gallery
+  // Gallery (reveal cards)
   const galleryGrid = document.getElementById("galleryGrid");
   (site.galleryImages || []).forEach((src, idx) => {
     const wrap = document.createElement("div");
-    wrap.className = "group overflow-hidden rounded-3xl bg-white ring-1 ring-black/10";
+    wrap.className = "reveal group overflow-hidden rounded-3xl bg-white ring-1 ring-black/10 transition dark:bg-zinc-900 dark:ring-white/10";
     const img = document.createElement("img");
     img.className = "h-44 w-full object-cover transition duration-300 group-hover:scale-[1.03]";
     img.alt = `Gallery ${idx + 1}`;
+    img.loading = "lazy";
     img.src = src;
     wrap.appendChild(img);
     galleryGrid.appendChild(wrap);
@@ -109,7 +141,7 @@ function setupScrollReveal() {
     categories.forEach(cat => {
       const btn = document.createElement("button");
       btn.className = `rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-black/10 transition
-        ${activeCat === cat ? "bg-zinc-900 text-white" : "bg-white text-zinc-800 hover:bg-[#fbf7f1]"}`;
+        ${activeCat === cat ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-950" : "bg-white text-zinc-800 hover:bg-[#fbf7f1] dark:bg-white/10 dark:text-white dark:hover:bg-white/15"}`;
       btn.textContent = cat;
       btn.onclick = () => { activeCat = cat; renderMenu(); renderChips(); };
       chipsWrap.appendChild(btn);
@@ -122,7 +154,7 @@ function setupScrollReveal() {
 
     if (!items.length) {
       const empty = document.createElement("div");
-      empty.className = "col-span-full rounded-3xl bg-white p-6 ring-1 ring-black/10 text-zinc-700";
+      empty.className = "col-span-full rounded-3xl bg-white p-6 ring-1 ring-black/10 text-zinc-700 dark:bg-zinc-900 dark:ring-white/10 dark:text-zinc-300";
       empty.textContent = "No menu items found. Try another keyword.";
       grid.appendChild(empty);
       return;
@@ -130,10 +162,9 @@ function setupScrollReveal() {
 
     items.forEach(item => {
       const card = document.createElement("button");
-      card.className = "reveal text-left overflow-hidden rounded-3xl bg-white ring-1 ring-black/10 transition hover:-translate-y-[1px] hover:shadow-sm";
+      card.className = "reveal text-left overflow-hidden rounded-3xl bg-white ring-1 ring-black/10 transition hover:-translate-y-[1px] hover:shadow-sm dark:bg-zinc-900 dark:ring-white/10";
       card.onclick = () => openModal(item);
 
-      // image
       const img = document.createElement("img");
       img.className = "h-40 w-full object-cover";
       img.alt = item.name;
@@ -149,18 +180,18 @@ function setupScrollReveal() {
 
       const left = document.createElement("div");
       const name = document.createElement("div");
-      name.className = "text-lg font-bold text-zinc-900";
+      name.className = "text-lg font-bold text-zinc-900 dark:text-white";
       name.textContent = item.name;
 
       const desc = document.createElement("div");
-      desc.className = "mt-1 text-sm text-zinc-700";
+      desc.className = "mt-1 text-sm text-zinc-700 dark:text-zinc-300";
       desc.textContent = item.desc || "";
 
       left.appendChild(name);
       left.appendChild(desc);
 
       const price = document.createElement("div");
-      price.className = "shrink-0 text-sm font-semibold text-zinc-900";
+      price.className = "shrink-0 text-sm font-semibold text-zinc-900 dark:text-white";
       price.textContent = fmt.format(item.price);
 
       top.appendChild(left);
@@ -171,7 +202,7 @@ function setupScrollReveal() {
       (item.badges || []).filter(Boolean).forEach(b => badges.appendChild(badgePill(b)));
 
       const cat = document.createElement("div");
-      cat.className = "mt-3 text-xs font-semibold text-zinc-500";
+      cat.className = "mt-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400";
       cat.textContent = item.category;
 
       body.appendChild(top);
@@ -182,7 +213,6 @@ function setupScrollReveal() {
       grid.appendChild(card);
     });
 
-    // Re-hook reveal for newly rendered items
     setupScrollReveal();
   }
 
@@ -225,7 +255,6 @@ function setupScrollReveal() {
   renderChips();
   renderMenu();
 
-  // Initial reveal
   setupScrollReveal();
 })().catch(err => {
   console.error(err);

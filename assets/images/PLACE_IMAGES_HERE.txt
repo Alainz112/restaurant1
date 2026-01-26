@@ -1,6 +1,7 @@
 Place your images here:
 - hero.jpg
 - gallery-1.jpg .. gallery-4.jpg
+
 Menu images:
 - menu/espresso.jpg
 - menu/latte.jpg
@@ -9,5 +10,3 @@ Menu images:
 - menu/katsu-sando.jpg
 - menu/croissant.jpg
 - menu/cheesecake.jpg
-
-Or change paths in data/site.json and data/menu.json.
