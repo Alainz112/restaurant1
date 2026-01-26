@@ -1,0 +1,7 @@
+Taruh gambar kamu di folder ini.
+- hero.jpg
+- gallery-1.jpg
+- gallery-2.jpg
+- gallery-3.jpg
+- gallery-4.jpg
+Atau ubah path di data/site.json.

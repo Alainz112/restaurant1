@@ -1,0 +1,96 @@
+[
+  {
+    "id": "m1",
+    "name": "Espresso",
+    "category": "Coffee",
+    "price": 25000,
+    "desc": "Single/double shot, bold & clean.",
+    "badges": [
+      "best seller"
+    ]
+  },
+  {
+    "id": "m2",
+    "name": "Caffe Latte",
+    "category": "Coffee",
+    "price": 32000,
+    "desc": "Espresso + milk, silky texture.",
+    "badges": []
+  },
+  {
+    "id": "m3",
+    "name": "Caramel Latte",
+    "category": "Coffee",
+    "price": 36000,
+    "desc": "Sweet caramel, balanced.",
+    "badges": [
+      "sweet"
+    ]
+  },
+  {
+    "id": "m4",
+    "name": "Matcha Latte",
+    "category": "Non-Coffee",
+    "price": 38000,
+    "desc": "Premium matcha, creamy.",
+    "badges": [
+      "favorite"
+    ]
+  },
+  {
+    "id": "m5",
+    "name": "Chocolate",
+    "category": "Non-Coffee",
+    "price": 34000,
+    "desc": "Rich cocoa, not too sweet.",
+    "badges": []
+  },
+  {
+    "id": "m6",
+    "name": "Chicken Katsu Sando",
+    "category": "Food",
+    "price": 52000,
+    "desc": "Katsu juicy, sauce gurih.",
+    "badges": [
+      "filling"
+    ]
+  },
+  {
+    "id": "m7",
+    "name": "Aglio Olio",
+    "category": "Food",
+    "price": 58000,
+    "desc": "Garlic, chili, olive oil, parmesan.",
+    "badges": [
+      "spicy"
+    ]
+  },
+  {
+    "id": "m8",
+    "name": "Butter Croissant",
+    "category": "Dessert",
+    "price": 28000,
+    "desc": "Flaky, baked daily.",
+    "badges": []
+  },
+  {
+    "id": "m9",
+    "name": "Cheesecake",
+    "category": "Dessert",
+    "price": 42000,
+    "desc": "Creamy, light sour.",
+    "badges": [
+      "best seller"
+    ]
+  },
+  {
+    "id": "m10",
+    "name": "Granola Bowl",
+    "category": "Food",
+    "price": 48000,
+    "desc": "Yogurt, fruit, granola (bisa vegan).",
+    "badges": [
+      "vegan option"
+    ]
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "brandName": "Kopi Senja",
+  "tagline": "Cafe hangat untuk kopi spesialti & brunch.",
+  "description": "Kopi fresh roast, makanan dibuat harian, dan tempat nyaman buat kerja atau ngobrol.",
+  "address": "Jl. Contoh No. 12, Jakarta",
+  "hours": "Buka setiap hari • 08.00–22.00",
+  "whatsappNumber": "6281234567890",
+  "whatsappDisplay": "+62 812-3456-7890",
+  "instagram": "@kopisenja",
+  "email": "hello@kopisenja.com",
+  "pdfMenuUrl": "https://example.com/menu.pdf",
+  "mapEmbedUrl": "https://www.google.com/maps?q=Monas%20Jakarta&output=embed",
+  "heroImage": "assets/images/hero.jpg",
+  "galleryImages": [
+    "assets/images/gallery-1.jpg",
+    "assets/images/gallery-2.jpg",
+    "assets/images/gallery-3.jpg",
+    "assets/images/gallery-4.jpg"
+  ]
+}

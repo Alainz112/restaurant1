@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Restaurant/Cafe</title>
+  <meta name="description" content="Landing page restoran/cafe." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>body.modal-open{overflow:hidden}</style>
+</head>
+
+<body class="bg-zinc-950 text-zinc-100 antialiased">
+  <!-- Top bar -->
+  <header class="sticky top-0 z-40 border-b border-white/10 bg-zinc-950/80 backdrop-blur">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+      <a href="#home" class="flex items-center gap-2 font-semibold tracking-tight">
+        <span class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white/10">☕</span>
+        <span id="brandNameTop">Brand</span>
+      </a>
+      <nav class="hidden items-center gap-6 text-sm text-zinc-300 md:flex">
+        <a class="hover:text-white" href="#menu">Menu</a>
+        <a class="hover:text-white" href="#about">Tentang</a>
+        <a class="hover:text-white" href="#gallery">Galeri</a>
+        <a class="hover:text-white" href="#contact">Kontak</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <a href="#contact" class="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-zinc-950 hover:bg-zinc-200">
+          Reservasi
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="relative">
+    <div class="absolute inset-0 -z-10">
+      <div id="heroBg" class="h-full w-full bg-cover bg-center opacity-30"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-950/60 to-zinc-950"></div>
+    </div>
+
+    <div class="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <div class="max-w-2xl">
+        <p id="hoursPill" class="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-zinc-300">
+          <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+          Buka setiap hari • 08.00–22.00
+        </p>
+        <h1 id="tagline" class="mt-4 text-4xl font-extrabold tracking-tight md:text-6xl">Tagline</h1>
+        <p id="desc" class="mt-4 text-lg text-zinc-300">Deskripsi singkat.</p>
+
+        <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+          <a href="#menu" class="rounded-xl bg-white px-5 py-3 text-center font-semibold text-zinc-950 hover:bg-zinc-200">
+            Lihat Menu
+          </a>
+          <a id="whatsappCta" href="#" class="rounded-xl border border-white/15 bg-white/5 px-5 py-3 text-center font-semibold hover:bg-white/10">
+            Order via WhatsApp
+          </a>
+        </div>
+
+        <div class="mt-10 grid grid-cols-2 gap-3 text-sm text-zinc-300 sm:grid-cols-4">
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div class="text-white font-semibold">Fast Wi‑Fi</div>
+            <div class="mt-1 text-xs">Work‑friendly</div>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div class="text-white font-semibold">Fresh Daily</div>
+            <div class="mt-1 text-xs">Baked & cooked</div>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div class="text-white font-semibold">Takeaway</div>
+            <div class="mt-1 text-xs">Ready to go</div>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div class="text-white font-semibold">Cozy Vibes</div>
+            <div class="mt-1 text-xs">Hangout spot</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu -->
+  <section id="menu" class="mx-auto max-w-6xl px-4 py-16">
+    <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+      <div>
+        <h2 class="text-3xl font-bold tracking-tight">Menu</h2>
+        <p class="mt-2 text-zinc-300">Klik item untuk detail. Filter kategori biar cepat.</p>
+      </div>
+
+      <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <input id="menuSearch" type="search" placeholder="Cari: latte, croissant..."
+          class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm outline-none placeholder:text-zinc-500 focus:border-white/30 sm:w-72" />
+        <a id="pdfMenuLink" href="#" class="rounded-xl border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold hover:bg-white/10">
+          Full Menu (PDF)
+        </a>
+      </div>
+    </div>
+
+    <div id="categoryChips" class="mt-6 flex flex-wrap gap-2"></div>
+    <div id="menuGrid" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+
+    <div class="mt-8 rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-zinc-300">
+      <div class="font-semibold text-white">Tips menu</div>
+      <ul class="mt-2 list-disc pl-5">
+        <li>Menu sering berubah? Pakai tombol PDF/Google Drive.</li>
+        <li>Menu stabil? Tampilkan semua item di halaman (lebih enak buat iklan & trust).</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="mx-auto max-w-6xl px-4 pb-16">
+    <div class="grid gap-8 rounded-3xl border border-white/10 bg-white/5 p-6 md:grid-cols-2 md:p-10">
+      <div>
+        <h2 class="text-3xl font-bold tracking-tight">Tentang <span id="brandNameAbout">Brand</span></h2>
+        <p class="mt-3 text-zinc-300">
+          Kami fokus di kopi spesialti dan menu yang simple tapi niat. Bahan segar, rasa bersih, dan pelayanan ramah.
+        </p>
+        <div class="mt-6 grid grid-cols-2 gap-3 text-sm">
+          <div class="rounded-2xl border border-white/10 bg-black/20 p-4">
+            <div class="font-semibold text-white">Alamat</div>
+            <div id="address" class="mt-1 text-zinc-300">—</div>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-black/20 p-4">
+            <div class="font-semibold text-white">Jam Buka</div>
+            <div id="hours" class="mt-1 text-zinc-300">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="overflow-hidden rounded-3xl border border-white/10 bg-black/20">
+        <iframe id="mapFrame"
+          title="Map"
+          class="h-72 w-full md:h-full"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery" class="mx-auto max-w-6xl px-4 pb-16">
+    <h2 class="text-3xl font-bold tracking-tight">Galeri</h2>
+    <p class="mt-2 text-zinc-300">Foto suasana & menu andalan.</p>
+    <div id="galleryGrid" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4"></div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="mx-auto max-w-6xl px-4 pb-20">
+    <div class="grid gap-8 rounded-3xl border border-white/10 bg-white/5 p-6 md:grid-cols-2 md:p-10">
+      <div>
+        <h2 class="text-3xl font-bold tracking-tight">Kontak & Reservasi</h2>
+        <p class="mt-2 text-zinc-300">Mau reservasi meja atau tanya menu? Chat langsung.</p>
+
+        <div class="mt-6 space-y-3 text-sm text-zinc-300">
+          <div><span class="text-white font-semibold">WhatsApp:</span> <span id="waText">—</span></div>
+          <div><span class="text-white font-semibold">Instagram:</span> <span id="igText">—</span></div>
+          <div><span class="text-white font-semibold">Email:</span> <span id="emailText">—</span></div>
+        </div>
+
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+          <a id="whatsappCta2" href="#" class="rounded-xl bg-white px-5 py-3 text-center font-semibold text-zinc-950 hover:bg-zinc-200">
+            Chat WhatsApp
+          </a>
+          <a href="#menu" class="rounded-xl border border-white/15 bg-white/5 px-5 py-3 text-center font-semibold hover:bg-white/10">
+            Lihat Menu Lagi
+          </a>
+        </div>
+      </div>
+
+      <!-- Netlify Forms ready -->
+      <form name="reservation" method="POST" data-netlify="true" class="rounded-3xl border border-white/10 bg-black/20 p-6">
+        <input type="hidden" name="form-name" value="reservation" />
+        <div class="grid gap-4">
+          <div>
+            <label class="text-sm text-zinc-300">Nama</label>
+            <input name="name" required class="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 outline-none focus:border-white/30" placeholder="Nama kamu" />
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm text-zinc-300">Tanggal</label>
+              <input name="date" type="date" required class="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 outline-none focus:border-white/30" />
+            </div>
+            <div>
+              <label class="text-sm text-zinc-300">Jumlah Orang</label>
+              <input name="pax" type="number" min="1" required class="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 outline-none focus:border-white/30" placeholder="2" />
+            </div>
+          </div>
+          <div>
+            <label class="text-sm text-zinc-300">Catatan</label>
+            <textarea name="notes" rows="3" class="mt-1 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2 outline-none focus:border-white/30" placeholder="Indoor/outdoor, alergi, dsb."></textarea>
+          </div>
+          <button class="rounded-xl bg-white px-5 py-3 font-semibold text-zinc-950 hover:bg-zinc-200">Kirim Reservasi</button>
+          <p class="text-xs text-zinc-400">Deploy di Netlify biar form langsung jalan (gratis). Atau arahkan ke WhatsApp.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <footer class="border-t border-white/10 py-10">
+    <div class="mx-auto max-w-6xl px-4 text-sm text-zinc-400">
+      © <span id="year"></span> <span id="brandNameFooter">Brand</span>. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div id="modalOverlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4">
+    <div class="w-full max-w-lg rounded-3xl border border-white/10 bg-zinc-950 p-6">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h3 id="modalTitle" class="text-xl font-bold"></h3>
+          <p id="modalDesc" class="mt-2 text-sm text-zinc-300"></p>
+          <div class="mt-3 flex flex-wrap gap-2" id="modalBadges"></div>
+        </div>
+        <button id="modalClose" class="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm hover:bg-white/10" aria-label="Close">✕</button>
+      </div>
+      <div class="mt-5 flex items-center justify-between border-t border-white/10 pt-4">
+        <div class="text-sm text-zinc-300">Harga</div>
+        <div id="modalPrice" class="text-lg font-semibold text-white"></div>
+      </div>
+      <a id="modalOrder" href="#" class="mt-5 block rounded-xl bg-white px-5 py-3 text-center font-semibold text-zinc-950 hover:bg-zinc-200">
+        Order via WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
