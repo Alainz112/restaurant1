@@ -1,6 +1,4 @@
-// Loads data/site.json and data/menu.json then renders UI.
-// Edit content via JSON files (no code changes needed).
-
+// V3: Menu images + scroll reveal animation (IntersectionObserver). Edit content via JSON only.
 const fmt = new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 });
 
 function waLink(number, text) {
@@ -9,66 +7,86 @@ function waLink(number, text) {
 
 function badgePill(text) {
   const span = document.createElement("span");
-  span.className = "rounded-full border border-white/10 bg-white/5 px-2 py-1 text-xs text-zinc-200";
+  span.className = "rounded-full bg-[#fbf7f1] px-2 py-1 text-xs font-semibold text-zinc-700 ring-1 ring-black/10";
   span.textContent = text;
   return span;
 }
 
-(async function init() {
-  const [siteRes, menuRes] = await Promise.all([
-    fetch("data/site.json"),
-    fetch("data/menu.json")
-  ]);
+function setupScrollReveal() {
+  const els = Array.from(document.querySelectorAll(".reveal, .reveal-stagger"));
+  if (!("IntersectionObserver" in window)) {
+    els.forEach(el => el.classList.add("is-visible"));
+    return;
+  }
 
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  els.forEach(el => io.observe(el));
+}
+
+(async function init() {
+  const [siteRes, menuRes] = await Promise.all([fetch("data/site.json"), fetch("data/menu.json")]);
   const site = await siteRes.json();
   const MENU = await menuRes.json();
 
-  // Year
+  // Meta + year
   document.getElementById("year").textContent = new Date().getFullYear();
+  document.title = `${site.brandName} — Cafe & Brunch`;
+  document.querySelector('meta[name="description"]').setAttribute("content", site.subheadline || "");
 
-  // Brand & text
-  document.title = `${site.brandName} — Restaurant/Cafe`;
-  document.querySelector('meta[name="description"]').setAttribute("content", site.description || "Landing page restoran/cafe.");
-
+  // Brand
   document.getElementById("brandNameTop").textContent = site.brandName;
   document.getElementById("brandNameAbout").textContent = site.brandName;
   document.getElementById("brandNameFooter").textContent = site.brandName;
 
-  document.getElementById("tagline").textContent = site.tagline;
-  document.getElementById("desc").textContent = site.description;
+  // Hero content
+  document.getElementById("navCta").textContent = site.navCta || "Book a Table";
+  // badge has: [dot span, text node], so update last text node:
+  const badgeEl = document.getElementById("badge");
+  badgeEl.childNodes[2].textContent = ` ${site.badge || site.hours || ""}`;
+  document.getElementById("headline").textContent = site.headline || "";
+  document.getElementById("subheadline").textContent = site.subheadline || "";
 
-  document.getElementById("hoursPill").lastChild.textContent = ` ${site.hours}`;
-  document.getElementById("address").textContent = site.address;
-  document.getElementById("hours").textContent = site.hours;
-
-  // Hero background
+  // Hero image
   const heroBg = document.getElementById("heroBg");
   heroBg.className = heroBg.className + ` bg-[url('${site.heroImage}')]`;
 
-  // Map
-  document.getElementById("mapFrame").src = site.mapEmbedUrl;
+  // About + map
+  document.getElementById("address").textContent = site.address || "";
+  document.getElementById("hours").textContent = site.hours || "";
+  document.getElementById("mapFrame").src = site.mapEmbedUrl || "";
 
   // Contact
-  document.getElementById("waText").textContent = site.whatsappDisplay;
-  document.getElementById("igText").textContent = site.instagram;
-  document.getElementById("emailText").textContent = site.email;
+  document.getElementById("waText").textContent = site.whatsappDisplay || "";
+  document.getElementById("igText").textContent = site.instagram || "";
+  document.getElementById("emailText").textContent = site.email || "";
 
-  // CTA buttons
-  document.getElementById("whatsappCta").href = waLink(site.whatsappNumber, `Halo ${site.brandName}! Mau tanya jam buka & reservasi.`);
-  document.getElementById("whatsappCta2").href = waLink(site.whatsappNumber, `Halo ${site.brandName}! Mau reservasi meja.`);
+  // CTAs
+  document.getElementById("whatsappCta").href = waLink(site.whatsappNumber, `Hi ${site.brandName}! I'd like to ask about your menu and booking.`);
+  document.getElementById("whatsappCta2").href = waLink(site.whatsappNumber, `Hi ${site.brandName}! I'd like to book a table.`);
   document.getElementById("pdfMenuLink").href = site.pdfMenuUrl || "#";
 
   // Gallery
   const galleryGrid = document.getElementById("galleryGrid");
   (site.galleryImages || []).forEach((src, idx) => {
+    const wrap = document.createElement("div");
+    wrap.className = "group overflow-hidden rounded-3xl bg-white ring-1 ring-black/10";
     const img = document.createElement("img");
-    img.className = "h-44 w-full rounded-2xl object-cover border border-white/10";
+    img.className = "h-44 w-full object-cover transition duration-300 group-hover:scale-[1.03]";
     img.alt = `Gallery ${idx + 1}`;
     img.src = src;
-    galleryGrid.appendChild(img);
+    wrap.appendChild(img);
+    galleryGrid.appendChild(wrap);
   });
 
-  // Menu rendering
+  // Menu
   const categories = ["All", ...Array.from(new Set(MENU.map(m => m.category)))];
   let activeCat = "All";
   let query = "";
@@ -90,8 +108,8 @@ function badgePill(text) {
     chipsWrap.innerHTML = "";
     categories.forEach(cat => {
       const btn = document.createElement("button");
-      btn.className = `rounded-full px-4 py-2 text-sm border transition
-        ${activeCat === cat ? "bg-white text-zinc-950 border-white" : "bg-white/5 text-zinc-200 border-white/10 hover:bg-white/10"}`;
+      btn.className = `rounded-full px-4 py-2 text-sm font-semibold ring-1 ring-black/10 transition
+        ${activeCat === cat ? "bg-zinc-900 text-white" : "bg-white text-zinc-800 hover:bg-[#fbf7f1]"}`;
       btn.textContent = cat;
       btn.onclick = () => { activeCat = cat; renderMenu(); renderChips(); };
       chipsWrap.appendChild(btn);
@@ -104,34 +122,45 @@ function badgePill(text) {
 
     if (!items.length) {
       const empty = document.createElement("div");
-      empty.className = "col-span-full rounded-2xl border border-white/10 bg-white/5 p-6 text-zinc-300";
-      empty.textContent = "Tidak ada menu yang cocok. Coba kata kunci lain.";
+      empty.className = "col-span-full rounded-3xl bg-white p-6 ring-1 ring-black/10 text-zinc-700";
+      empty.textContent = "No menu items found. Try another keyword.";
       grid.appendChild(empty);
       return;
     }
 
     items.forEach(item => {
       const card = document.createElement("button");
-      card.className = "text-left rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/10 transition";
+      card.className = "reveal text-left overflow-hidden rounded-3xl bg-white ring-1 ring-black/10 transition hover:-translate-y-[1px] hover:shadow-sm";
       card.onclick = () => openModal(item);
+
+      // image
+      const img = document.createElement("img");
+      img.className = "h-40 w-full object-cover";
+      img.alt = item.name;
+      img.loading = "lazy";
+      img.src = item.image || "";
+      card.appendChild(img);
+
+      const body = document.createElement("div");
+      body.className = "p-5";
 
       const top = document.createElement("div");
       top.className = "flex items-start justify-between gap-3";
 
       const left = document.createElement("div");
       const name = document.createElement("div");
-      name.className = "text-lg font-semibold text-white";
+      name.className = "text-lg font-bold text-zinc-900";
       name.textContent = item.name;
 
       const desc = document.createElement("div");
-      desc.className = "mt-1 text-sm text-zinc-300";
+      desc.className = "mt-1 text-sm text-zinc-700";
       desc.textContent = item.desc || "";
 
       left.appendChild(name);
       left.appendChild(desc);
 
       const price = document.createElement("div");
-      price.className = "shrink-0 text-sm font-semibold text-white";
+      price.className = "shrink-0 text-sm font-semibold text-zinc-900";
       price.textContent = fmt.format(item.price);
 
       top.appendChild(left);
@@ -142,14 +171,19 @@ function badgePill(text) {
       (item.badges || []).filter(Boolean).forEach(b => badges.appendChild(badgePill(b)));
 
       const cat = document.createElement("div");
-      cat.className = "mt-3 text-xs text-zinc-400";
+      cat.className = "mt-3 text-xs font-semibold text-zinc-500";
       cat.textContent = item.category;
 
-      card.appendChild(top);
-      card.appendChild(badges);
-      card.appendChild(cat);
+      body.appendChild(top);
+      body.appendChild(badges);
+      body.appendChild(cat);
+
+      card.appendChild(body);
       grid.appendChild(card);
     });
+
+    // Re-hook reveal for newly rendered items
+    setupScrollReveal();
   }
 
   // Modal
@@ -165,12 +199,15 @@ function badgePill(text) {
     document.getElementById("modalDesc").textContent = item.desc || "";
     document.getElementById("modalPrice").textContent = fmt.format(item.price);
 
+    const modalImg = document.getElementById("modalImage");
+    modalImg.src = item.image || "";
+    modalImg.alt = item.name;
+
     const badges = document.getElementById("modalBadges");
     badges.innerHTML = "";
     (item.badges || []).filter(Boolean).forEach(b => badges.appendChild(badgePill(b)));
 
-    const orderBtn = document.getElementById("modalOrder");
-    orderBtn.href = waLink(site.whatsappNumber, `Halo ${site.brandName}! Saya mau pesan: ${item.name}. Bisa info ketersediaan?`);
+    document.getElementById("modalOrder").href = waLink(site.whatsappNumber, `Hi ${site.brandName}! I'd like to order: ${item.name}. Is it available?`);
   }
 
   function closeModal() {
@@ -183,17 +220,19 @@ function badgePill(text) {
   overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
   window.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
 
-  // Search
   search.addEventListener("input", (e) => { query = e.target.value; renderMenu(); });
 
   renderChips();
   renderMenu();
+
+  // Initial reveal
+  setupScrollReveal();
 })().catch(err => {
   console.error(err);
   const grid = document.getElementById("menuGrid");
   if (grid) {
-    grid.innerHTML = `<div class="col-span-full rounded-2xl border border-red-500/30 bg-red-500/10 p-6 text-red-200">
-      Gagal load data JSON. Kalau kamu buka file ini langsung (double click), coba pakai Live Server (VSCode) atau deploy ke Netlify/Vercel.
+    grid.innerHTML = `<div class="col-span-full rounded-3xl bg-white p-6 ring-1 ring-red-500/30 text-red-700">
+      Failed to load JSON data. Use VSCode Live Server for local preview, or deploy to Netlify/Vercel.
     </div>`;
   }
 });

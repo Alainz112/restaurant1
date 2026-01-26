@@ -1,7 +1,13 @@
-Taruh gambar kamu di folder ini.
+Place your images here:
 - hero.jpg
-- gallery-1.jpg
-- gallery-2.jpg
-- gallery-3.jpg
-- gallery-4.jpg
-Atau ubah path di data/site.json.
+- gallery-1.jpg .. gallery-4.jpg
+Menu images:
+- menu/espresso.jpg
+- menu/latte.jpg
+- menu/caramel-latte.jpg
+- menu/matcha.jpg
+- menu/katsu-sando.jpg
+- menu/croissant.jpg
+- menu/cheesecake.jpg
+
+Or change paths in data/site.json and data/menu.json.

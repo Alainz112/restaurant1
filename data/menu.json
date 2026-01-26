@@ -4,93 +4,72 @@
     "name": "Espresso",
     "category": "Coffee",
     "price": 25000,
-    "desc": "Single/double shot, bold & clean.",
+    "desc": "Bold, clean, single/double shot.",
     "badges": [
       "best seller"
-    ]
+    ],
+    "image": "assets/images/menu/espresso.jpg"
   },
   {
     "id": "m2",
-    "name": "Caffe Latte",
+    "name": "Caffè Latte",
     "category": "Coffee",
     "price": 32000,
-    "desc": "Espresso + milk, silky texture.",
-    "badges": []
+    "desc": "Silky espresso with steamed milk.",
+    "badges": [],
+    "image": "assets/images/menu/latte.jpg"
   },
   {
     "id": "m3",
-    "name": "Caramel Latte",
+    "name": "Salted Caramel Latte",
     "category": "Coffee",
     "price": 36000,
-    "desc": "Sweet caramel, balanced.",
+    "desc": "Balanced sweetness with a caramel finish.",
     "badges": [
       "sweet"
-    ]
+    ],
+    "image": "assets/images/menu/caramel-latte.jpg"
   },
   {
     "id": "m4",
     "name": "Matcha Latte",
-    "category": "Non-Coffee",
+    "category": "Non‑Coffee",
     "price": 38000,
-    "desc": "Premium matcha, creamy.",
+    "desc": "Premium matcha, creamy & smooth.",
     "badges": [
       "favorite"
-    ]
-  },
-  {
-    "id": "m5",
-    "name": "Chocolate",
-    "category": "Non-Coffee",
-    "price": 34000,
-    "desc": "Rich cocoa, not too sweet.",
-    "badges": []
+    ],
+    "image": "assets/images/menu/matcha.jpg"
   },
   {
     "id": "m6",
     "name": "Chicken Katsu Sando",
     "category": "Food",
     "price": 52000,
-    "desc": "Katsu juicy, sauce gurih.",
+    "desc": "Juicy katsu, house sauce, soft bread.",
     "badges": [
       "filling"
-    ]
-  },
-  {
-    "id": "m7",
-    "name": "Aglio Olio",
-    "category": "Food",
-    "price": 58000,
-    "desc": "Garlic, chili, olive oil, parmesan.",
-    "badges": [
-      "spicy"
-    ]
+    ],
+    "image": "assets/images/menu/katsu-sando.jpg"
   },
   {
     "id": "m8",
     "name": "Butter Croissant",
-    "category": "Dessert",
+    "category": "Pastry",
     "price": 28000,
     "desc": "Flaky, baked daily.",
-    "badges": []
+    "badges": [],
+    "image": "assets/images/menu/croissant.jpg"
   },
   {
     "id": "m9",
     "name": "Cheesecake",
     "category": "Dessert",
     "price": 42000,
-    "desc": "Creamy, light sour.",
+    "desc": "Creamy with a light tang.",
     "badges": [
       "best seller"
-    ]
-  },
-  {
-    "id": "m10",
-    "name": "Granola Bowl",
-    "category": "Food",
-    "price": 48000,
-    "desc": "Yogurt, fruit, granola (bisa vegan).",
-    "badges": [
-      "vegan option"
-    ]
+    ],
+    "image": "assets/images/menu/cheesecake.jpg"
   }
 ]
